@@ -1,13 +1,24 @@
-import app from "./app.js"
-import "dotenv/config.js"; 11.6k (gzipped: 4.9k)
-import
+import dotenv from "dotenv";
+import { fileURLToPath } from "node:url";
+import app from "./app.js";
+import conectarDB from "./config/db.js";
+
+dotenv.config({
+    path: fileURLToPath(new URL("./.env", import.meta.url))
+});
 
 const PORT = process.env.PORT || 3000;
 
-try {
-    conectarDB();
-    app.listen(PORT, () =>
-         console.log("Servidor escuchado en el puerto ${PORT}"),);
-} catch (error) {
-    console.log("No se pudo iniciar la aplicacion")
+async function iniciarServidor() {
+    try {
+        await conectarDB();
+        app.listen(PORT, () => {
+            console.log(`Servidor escuchado en el puerto ${PORT}`);
+        });
+    } catch (error) {
+        console.error("No se pudo iniciar la aplicacion:", error.message);
+        process.exitCode = 1;
+    }
 }
+
+iniciarServidor();

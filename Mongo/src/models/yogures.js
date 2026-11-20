@@ -21,6 +21,15 @@ const yogurSchema = mongoose.Schema({
         type: Number,
         required: true,
         min: [0, "La cantidad disponible no puede ser negativa"]
+    },
+    disponible: {
+        type: Boolean,
+        default: true
+    },
+    imagen: {
+        type: String,
+        trim: true,
+        default: ""
     }
 });
 
